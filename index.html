@@ -24,19 +24,27 @@
                 <h2 class="title">ちゃいん</h2>
                 <p class="subtitle">ELECTRONICS / MINECRAFT / DEV</p>
                 <div class="social-links">
-                    <span>X</span> / <span>GitHub</span>
+                    <a href="https://x.com/chiyain1234" target="_blank" class="clickable">X</a> / 
+                    <a href="https://github.com/chiyain1234" target="_blank" class="clickable">GitHub</a>
                 </div>
             </div>
             <div class="discord-area">
-                <img src="https://discord-readme-badge.vercel.app/api?id=922776570597376012" alt="Discord">
+                <a href="https://discord.com/users/922776570597376012" target="_blank" class="clickable">
+                    <img src="https://discord-readme-badge.vercel.app/api?id=922776570597376012" alt="Discord">
+                </a>
             </div>
         </section>
 
         <section id="view-colors" class="view">
             <div class="tool-wrap">
                 <h3 class="tool-title">COLOR PICKER</h3>
-                <div id="color-preview" class="color-display">#5865F2</div>
-                <input type="color" id="color-input" value="#5865f2" oninput="updateColor(this.value)">
+                <div id="color-preview" class="color-display" style="background-color: #5865F2;">#5865F2</div>
+                
+                <div class="input-row">
+                    <input type="color" id="color-picker" value="#5865f2" oninput="syncColor('picker')">
+                    <input type="text" id="color-text" value="#5865F2" oninput="syncColor('text')" maxlength="7" placeholder="#000000">
+                </div>
+
                 <div class="color-grid">
                     <div class="c-box" style="background:#FF4B2B;" onclick="updateColor('#FF4B2B')"></div>
                     <div class="c-box" style="background:#FF416C;" onclick="updateColor('#FF416C')"></div>
@@ -82,19 +90,19 @@
 
         <section id="view-tool" class="view">
             <div class="tool-wrap">
-                <h3 class="tool-title">UNIT MASTER v2.0</h3>
+                <h3 class="tool-title">UNIT MASTER</h3>
                 <select id="unit-type" onchange="initUnit()">
-                    <option value="base">RADIX (進数)</option>
-                    <option value="length">LENGTH (長さ)</option>
-                    <option value="weight">WEIGHT (重さ)</option>
+                    <option value="base">RADIX (HEX to BIN)</option>
+                    <option value="length">LENGTH (m to ft)</option>
+                    <option value="weight">WEIGHT (kg to lb)</option>
                 </select>
                 <div class="field">
-                    <label id="label-in">INPUT</label>
-                    <input type="text" id="unit-in" oninput="unitConvert()">
+                    <label id="label-in">HEXADECIMAL</label>
+                    <input type="text" id="unit-in" placeholder="Input value..." oninput="unitConvert()">
                 </div>
                 <div class="field">
-                    <label id="label-out">RESULT</label>
-                    <input type="text" id="unit-out" readonly>
+                    <label id="label-out">BINARY RESULT</label>
+                    <input type="text" id="unit-out" readonly placeholder="Result...">
                 </div>
             </div>
         </section>
