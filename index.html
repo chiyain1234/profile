@@ -1,1 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>About // Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: #d4d4d4;
+            --main-syntax: #9cdcfe;
+            --string-color: #ce9178;
+            --keyword-color: #569cd6;
+            --comment-color: #6a9955;
+            --number-color: #b5cea8;
+            --ui-border: #333333;
+            --tab-bg: #2d2d2d;
+        }
 
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            display: flex; flex-direction: column;
+            height: 100vh; overflow: hidden;
+        }
+
+        header {
+            background-color: var(--tab-bg);
+            border-bottom: 1px solid var(--ui-border);
+            padding: 0 10px; display: flex; align-items: center;
+            height: 35px; font-size: 12px; color: #888;
+        }
+
+        .tab {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 0 20px; height: 100%;
+            display: flex; align-items: center;
+            border-right: 1px solid var(--ui-border);
+        }
+
+        .editor-container { flex: 1; display: flex; overflow: hidden; }
+
+        .line-numbers {
+            width: 45px; background-color: var(--tab-bg);
+            padding: 20px 0; text-align: right;
+            color: #858585; user-select: none;
+            border-right: 1px solid var(--ui-border);
+        }
+        .line-numbers span { display: block; padding-right: 10px; }
+
+        .code-area { flex: 1; padding: 20px; overflow-y: auto; white-space: pre; }
+
+        /* Syntax Highlight */
+        .kwd { color: var(--keyword-color); }
+        .var { color: var(--main-syntax); }
+        .str { color: var(--string-color); }
+        .com { color: var(--comment-color); }
+        .func { color: #dcdcaa; }
+        .indent { margin-left: 3ch; display: inline-block; }
+
+        a { color: var(--string-color); text-decoration: underline; }
+        
+        @media (max-width: 600px) {
+            .code-area { padding: 10px; font-size: 12px; }
+            .line-numbers { width: 35px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="tab">Profile.cs</div>
+    <span style="margin-left: 10px;">src > root > user</span>
+</header>
+
+<div class="editor-container">
+    <div class="line-numbers">
+        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+        <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span>
+        <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span>
+        <span>19</span><span>20</span><span>21</span>
+    </div>
+
+    <div class="code-area"><span class="kwd">using</span> System;
+<span class="kwd">using</span> System.Collections.Generic;
+
+<span class="kwd">namespace</span> <span class="str">Portfolio</span>
+{
+<span class="indent"></span><span class="com">/// &lt;summary&gt;</span>
+<span class="indent"></span><span class="com">/// ユーザープロフィール情報の定義</span>
+<span class="indent"></span><span class="com">/// &lt;/summary&gt;</span>
+<span class="indent"></span><span class="kwd">public class</span> <span class="var">Identity</span>
+<span class="indent"></span>{
+<span class="indent"></span><span class="indent"></span><span class="kwd">public string</span> <span class="var">Handle</span> = <span class="str">"USER_NAME"</span>;
+<span class="indent"></span><span class="indent"></span><span class="kwd">public string</span> <span class="var">Focus</span>  = <span class="str">"Electronics & Engineering"</span>;
+<span class="indent"></span>
+<span class="indent"></span><span class="indent"></span><span class="kwd">public string</span>[] <span class="var">Interests</span> = { 
+<span class="indent"></span><span class="indent"></span><span class="indent"></span><span class="str">"Circuit"</span>, <span class="str">"Programming"</span>, <span class="str">"Minecraft"</span> 
+<span class="indent"></span><span class="indent"></span>};
+<span class="indent"></span>
+<span class="indent"></span><span class="indent"></span><span class="kwd">public void</span> <span class="func">OpenLinks</span>()
+<span class="indent"></span><span class="indent"></span>{
+<span class="indent"></span><span class="indent"></span><span class="indent"></span>Console.<span class="func">WriteLine</span>(<span class="str">"Status: <a href="./index.html">Activity Monitor</a>"</span>);
+<span class="indent"></span><span class="indent"></span><span class="indent"></span>Console.<span class="func">WriteLine</span>(<span class="str">"GitHub: <a href="#">Repository</a>"</span>);
+<span class="indent"></span><span class="indent"></span>}
+<span class="indent"></span>}
+}</div>
+</div>
+
+</body>
+</html>
