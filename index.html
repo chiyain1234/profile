@@ -10,6 +10,7 @@
             --text-main: #eeeeee;
             --text-sub: #999999;
             --accent: #5865F2;
+            --deco-line: rgba(238, 238, 238, 0.2); /* 装飾用の薄い白色 */
         }
 
         body {
@@ -28,8 +29,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 25px; /* 全体の間隔を少し広く */
             font-size: 13px;
+            padding: 20px;
+        }
+
+        /* 装飾：アバターの下の線 */
+        .header-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--deco-line);
         }
 
         .avatar {
@@ -38,7 +50,6 @@
             border-radius: 50%;
             border: 2px solid var(--text-main);
             object-fit: cover;
-            margin-bottom: 5px;
         }
 
         .info-grid {
@@ -46,6 +57,7 @@
             grid-template-columns: auto auto;
             gap: 12px 25px;
             text-transform: uppercase;
+            padding: 10px 0;
         }
 
         .label {
@@ -64,10 +76,12 @@
         a {
             color: var(--text-main);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: color 0.2s, border-bottom 0.2s;
+            border-bottom: 1px solid transparent; /* ホバー用の下線 */
         }
         a:hover {
             color: var(--accent);
+            border-bottom: 1px solid var(--accent);
         }
 
         .user-id {
@@ -77,34 +91,43 @@
             text-transform: none; 
         }
 
+        /* 装飾：Discordエリアの上の線 */
         .discord-status-row {
             margin-top: 10px;
             display: flex;
             justify-content: center;
             width: 100%;
+            padding-top: 25px;
+            border-top: 1px solid var(--deco-line);
         }
 
         .discord-badge {
             height: 50px; 
             display: block;
-            transition: opacity 0.2s;
+            transition: transform 0.2s, opacity 0.2s;
         }
 
         .discord-badge:hover {
-            opacity: 0.8;
+            opacity: 0.9;
+            transform: scale(1.02); /* 少しだけ大きくする遊び心 */
         }
 
         @media (max-width: 400px) {
             .info-grid { font-size: 11px; gap: 10px 15px; }
             .avatar { width: 60px; height: 60px; }
             .discord-badge { height: 55px; }
+            .container { gap: 20px; }
+            .header-area { padding-bottom: 15px; }
+            .discord-status-row { padding-top: 20px; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <img src="./chiyain.png" alt="ちゃいん" class="avatar">
+    <div class="header-area">
+        <img src="./chiyain.png" alt="ちゃいん" class="avatar">
+    </div>
 
     <div class="info-grid">
         <div class="label">User</div>
