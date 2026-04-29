@@ -40,26 +40,32 @@
     </div>
 </section>
 
-        <section id="view-colors" class="view">
-            <div class="tool-wrap">
-                <h3 class="tool-title">COLOR PICKER</h3>
-                <div id="color-preview" class="color-display" style="background-color: #5865F2;">#5865F2</div>
-                
-                <div class="input-row">
-                    <input type="color" id="color-picker" value="#5865f2" oninput="syncColor('picker')">
-                    <input type="text" id="color-text" value="#5865F2" oninput="syncColor('text')" maxlength="7" placeholder="#000000">
-                </div>
+<section id="view-colors" class="view">
+    <div class="tool-wrap">
+        <h3 class="tool-title">COLOR PICKER</h3>
+        <div id="color-preview" class="color-display" style="background-color: #5865F2;">#5865F2</div>
+        
+        <div class="input-row">
+            <input type="color" id="color-picker" value="#5865f2" oninput="syncColor('picker')">
+            <input type="text" id="color-text" value="#5865F2" oninput="syncColor('text')" maxlength="7">
+        </div>
 
-                <div class="color-grid">
-                    <div class="c-box" style="background:#FF4B2B;" onclick="updateColor('#FF4B2B')"></div>
-                    <div class="c-box" style="background:#FF416C;" onclick="updateColor('#FF416C')"></div>
-                    <div class="c-box" style="background:#00B4DB;" onclick="updateColor('#00B4DB')"></div>
-                    <div class="c-box" style="background:#00f2fe;" onclick="updateColor('#00f2fe')"></div>
-                    <div class="c-box" style="background:#7ed56f;" onclick="updateColor('#7ed56f')"></div>
-                    <div class="c-box" style="background:#28b485;" onclick="updateColor('#28b485')"></div>
-                </div>
+        <div class="slider-group" style="margin-top: 20px;">
+            <div class="sld-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; width: 15px;">R</span>
+                <input type="range" id="sld-r" min="0" max="255" value="88" oninput="syncColor('slider')" style="flex: 1;">
             </div>
-        </section>
+            <div class="sld-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; width: 15px;">G</span>
+                <input type="range" id="sld-g" min="0" max="255" value="101" oninput="syncColor('slider')" style="flex: 1;">
+            </div>
+            <div class="sld-row" style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-family: 'JetBrains Mono'; font-size: 10px; width: 15px;">B</span>
+                <input type="range" id="sld-b" min="0" max="255" value="242" oninput="syncColor('slider')" style="flex: 1;">
+            </div>
+        </div>
+    </div>
+</section>
 
         <section id="view-calc" class="view">
             <div class="calc-wrap">
