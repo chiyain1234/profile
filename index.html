@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Chiyain / Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@300;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
@@ -38,24 +38,20 @@
         <section id="view-colors" class="view">
             <div class="tool-wrap">
                 <h3 class="tool-title">COLOR PICKER</h3>
-                <div id="color-preview" class="color-display">#5865F2</div>
+                <div id="color-preview" class="color-display" style="background-color: #5865F2;">#5865F2</div>
                 
                 <div class="input-row">
-                    <input type="text" id="color-text" value="#5865F2" oninput="syncColor('text')" maxlength="7">
                     <input type="color" id="color-picker" value="#5865f2" oninput="syncColor('picker')">
-                </div>
-
-                <div class="slider-group">
-                    <div class="sld-row"><label>R</label><input type="range" id="sld-r" min="0" max="255" value="88" oninput="syncColor('slider')"></div>
-                    <div class="sld-row"><label>G</label><input type="range" id="sld-g" min="0" max="255" value="101" oninput="syncColor('slider')"></div>
-                    <div class="sld-row"><label>B</label><input type="range" id="sld-b" min="0" max="255" value="242" oninput="syncColor('slider')"></div>
+                    <input type="text" id="color-text" value="#5865F2" oninput="syncColor('text')" maxlength="7" placeholder="#000000">
                 </div>
 
                 <div class="color-grid">
                     <div class="c-box" style="background:#FF4B2B;" onclick="updateColor('#FF4B2B')"></div>
+                    <div class="c-box" style="background:#FF416C;" onclick="updateColor('#FF416C')"></div>
+                    <div class="c-box" style="background:#00B4DB;" onclick="updateColor('#00B4DB')"></div>
                     <div class="c-box" style="background:#00f2fe;" onclick="updateColor('#00f2fe')"></div>
                     <div class="c-box" style="background:#7ed56f;" onclick="updateColor('#7ed56f')"></div>
-                    <div class="c-box" style="background:#5865F2;" onclick="updateColor('#5865F2')"></div>
+                    <div class="c-box" style="background:#28b485;" onclick="updateColor('#28b485')"></div>
                 </div>
             </div>
         </section>
@@ -74,7 +70,7 @@
                     <button class="c-btn" onclick="calcAction('7')">7</button>
                     <button class="c-btn" onclick="calcAction('8')">8</button>
                     <button class="c-btn" onclick="calcAction('9')">9</button>
-                    <button class="c-btn op" onclick="calcClear()">AC</button>
+                    <button class="c-btn op bold" onclick="calcClear()">AC</button>
                     <button class="c-btn" onclick="calcAction('4')">4</button>
                     <button class="c-btn" onclick="calcAction('5')">5</button>
                     <button class="c-btn" onclick="calcAction('6')">6</button>
@@ -94,21 +90,19 @@
 
         <section id="view-tool" class="view">
             <div class="tool-wrap">
-                <h3 class="tool-title">AUTO CONVERTER</h3>
-                <div class="unit-group">
-                    <label>HEX to BINARY</label>
-                    <input type="text" id="u-hex" placeholder="FF" oninput="doConvert('hex')">
-                    <div id="res-bin" class="auto-res">0000 0000</div>
+                <h3 class="tool-title">UNIT MASTER</h3>
+                <select id="unit-type" onchange="initUnit()">
+                    <option value="base">RADIX (HEX to BIN)</option>
+                    <option value="length">LENGTH (m to ft)</option>
+                    <option value="weight">WEIGHT (kg to lb)</option>
+                </select>
+                <div class="field">
+                    <label id="label-in">HEXADECIMAL</label>
+                    <input type="text" id="unit-in" placeholder="Input value..." oninput="unitConvert()">
                 </div>
-                <div class="unit-group">
-                    <label>METERS to FEET</label>
-                    <input type="number" id="u-m" placeholder="1.0" oninput="doConvert('len')">
-                    <div id="res-ft" class="auto-res">0.00 ft</div>
-                </div>
-                <div class="unit-group">
-                    <label>CELSIUS to FAHRENHEIT</label>
-                    <input type="number" id="u-c" placeholder="0" oninput="doConvert('temp')">
-                    <div id="res-f" class="auto-res">32.0 °F</div>
+                <div class="field">
+                    <label id="label-out">BINARY RESULT</label>
+                    <input type="text" id="unit-out" readonly placeholder="Result...">
                 </div>
             </div>
         </section>
