@@ -1,16 +1,8 @@
 :root {
-    --bg: #050505; --panel: #111; --text: #eee; --sub: #777;
-    --accent: #5865F2;
+    --bg: #050505; --panel: #111; --text: #eee; --sub: #777; --accent: #5865F2;
 }
-
 * { user-select: none !important; -webkit-user-select: none !important; }
-
-/* リンクと入力欄だけは操作できるようにする */
-.clickable, input, select, button {
-    user-select: auto !important;
-    -webkit-user-select: auto !important;
-    pointer-events: auto;
-}
+.clickable, input, select, button { user-select: auto !important; pointer-events: auto; }
 
 body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow: hidden; }
 .main-frame { display: grid; grid-template-columns: 90px 1fr; width: 95vw; max-width: 800px; height: 550px; background: var(--panel); border: 1px solid #222; border-radius: 16px; overflow: hidden; }
@@ -21,7 +13,7 @@ body { margin: 0; height: 100vh; display: flex; align-items: center; justify-con
 .nav-btn.active { border-color: var(--accent); color: var(--accent); background: #1a1a2a; }
 
 /* Views */
-.content { position: relative; padding: 40px; }
+.content { position: relative; padding: 30px 40px; }
 .view { display: none; height: 100%; opacity: 0; transform: translateY(10px); transition: 0.4s; }
 .view.active { display: flex; flex-direction: column; opacity: 1; transform: translateY(0); }
 
@@ -29,22 +21,27 @@ body { margin: 0; height: 100vh; display: flex; align-items: center; justify-con
 #view-profile { align-items: center; justify-content: center; text-align: center; }
 .avatar { width: 90px; height: 90px; border-radius: 50%; border: 1px solid #eee; margin-bottom: 20px; }
 .title { font-family: 'Montserrat'; font-weight: 400; font-size: 30px; margin: 0; }
-.social-links a { color: var(--accent); text-decoration: none; cursor: pointer; }
+.social-links a { color: var(--accent); text-decoration: none; font-size: 14px; }
 
-/* Color Picker UI */
-.color-display { width: 100%; height: 80px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono'; font-size: 24px; margin-bottom: 20px; border: 1px solid #333; }
-.input-row { display: grid; grid-template-columns: 60px 1fr; gap: 10px; margin-bottom: 20px; }
-#color-picker { width: 100%; height: 45px; border: 1px solid #333; background: none; cursor: pointer; padding: 0; }
-#color-text { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 0 15px; font-family: 'JetBrains Mono'; }
-.color-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
-.c-box { height: 40px; border-radius: 6px; cursor: pointer; }
+/* Color UI */
+.color-display { width: 100%; height: 70px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono'; font-size: 20px; margin-bottom: 15px; border: 1px solid #333; }
+.input-row { display: grid; grid-template-columns: 1fr 60px; gap: 10px; margin-bottom: 15px; }
+#color-text { background: #000; border: 1px solid #333; color: #fff; padding: 10px; font-family: 'JetBrains Mono'; text-align: center; }
+#color-picker { width: 100%; height: 100%; border: 1px solid #333; background: none; cursor: pointer; padding: 0; }
+.slider-group { margin-bottom: 15px; }
+.sld-row { display: grid; grid-template-columns: 20px 1fr; gap: 15px; align-items: center; margin-bottom: 5px; }
+.sld-row label { font-family: 'Montserrat'; font-size: 10px; color: var(--sub); }
+input[type="range"] { accent-color: var(--accent); cursor: pointer; }
+.color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.c-box { height: 35px; border-radius: 4px; cursor: pointer; border: 1px solid #222; }
 
-/* Unit Converter UI */
-#unit-type { background: #1a1a1a; color: white; border: 1px solid #333; padding: 12px; width: 100%; margin-bottom: 20px; font-family: 'Montserrat'; border-radius: 6px; }
-.field label { font-family: 'Montserrat'; font-size: 10px; color: var(--sub); display: block; margin-top: 10px; }
-input[type="text"] { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 12px; font-family: 'JetBrains Mono'; margin: 5px 0; box-sizing: border-box; border-radius: 4px; }
+/* Unit UI */
+.unit-group { background: #161616; padding: 15px; border-radius: 8px; border: 1px solid #222; margin-bottom: 10px; }
+.unit-group label { font-family: 'Montserrat'; font-size: 9px; color: var(--sub); display: block; margin-bottom: 5px; }
+.unit-group input { width: 100%; background: #000; border: 1px solid #333; color: #fff; padding: 8px; font-family: 'JetBrains Mono'; box-sizing: border-box; }
+.auto-res { margin-top: 8px; font-family: 'JetBrains Mono'; font-size: 16px; color: var(--accent); font-weight: bold; }
 
-/* Calc (前と同じ) */
+/* Calc (簡略) */
 .calc-wrap { max-width: 340px; margin: auto; width: 100%; }
 .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .c-btn { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 14px; border-radius: 6px; cursor: pointer; font-family: 'Montserrat'; font-size: 12px; }
