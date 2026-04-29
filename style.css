@@ -105,26 +105,4 @@ body {
 }
 .area-label { font-family: var(--font-mono); font-size: 9px; color: #444; letter-spacing: 1px; }
 
-/* カスタムカーソルの本体 */
-#custom-cursor {
-    width: 12px;
-    height: 12px;
-    background: #fff;
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none; 
-    z-index: 9999;
-    mix-blend-mode: difference; 
-    transition: transform 0.1s ease-out;
-    transform: translate(-50%, -50%);
-}
 
-.cursor-hover {
-    transform: translate(-50%, -50%) scale(2.5) !important;
-    background: rgba(255, 255, 255, 0.5) !important;
-}
-
-/* 標準のカーソルを消す */
-body, button, a, input, select {
-    cursor: none !important;
-}
