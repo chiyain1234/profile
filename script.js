@@ -1,4 +1,4 @@
-// Tab switching
+// Tab Switching
 function showView(id, event) {
     const views = document.querySelectorAll('.view');
     const btns = document.querySelectorAll('.nav-btn');
@@ -15,74 +15,87 @@ function showView(id, event) {
     }, 300);
 }
 
-// --- COLOR PICKER LOGIC ---
+// --- Color Picker Logic (入力・選択対応) ---
 function syncColor(source) {
-    let r, g, b, hex;
-
-    if (source === 'slider') {
-        r = parseInt(document.getElementById('sld-r').value);
-        g = parseInt(document.getElementById('sld-g').value);
-        b = parseInt(document.getElementById('sld-b').value);
-        hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
-    } 
-    else if (source === 'picker') {
-        hex = document.getElementById('color-picker').value.toUpperCase();
-    } 
-    else if (source === 'text') {
-        hex = document.getElementById('color-text').value;
-        if (!/^#[0-9A-Fa-f]{6}$/.test(hex)) return;
+    const picker = document.getElementById('color-picker');
+    const text = document.getElementById('color-text');
+    let color = (source === 'picker') ? picker.value : text.value;
+    
+    // テキスト入力の場合、#を補完してバリデーション
+    if(source === 'text') {
+        if(!color.startsWith('#')) color = '#' + color;
+        if(!/^#[0-9A-Fa-f]{6}$/.test(color)) return; // 不正な形式なら無視
     }
-
-    updateColor(hex);
+    
+    updateColor(color);
 }
 
 function updateColor(hex) {
     const display = document.getElementById('color-preview');
     const picker = document.getElementById('color-picker');
     const text = document.getElementById('color-text');
-    const sR = document.getElementById('sld-r');
-    const sG = document.getElementById('sld-g');
-    const sB = document.getElementById('sld-b');
 
     display.style.backgroundColor = hex;
-    display.innerText = hex;
-    picker.value = hex.toLowerCase();
-    text.value = hex;
+    display.innerText = hex.toUpperCase();
+    picker.value = hex;
+    text.value = hex.toUpperCase();
 
-    // スライダーの値をHEXから逆算して更新
+    // 背景色に応じて文字色を反転
     const r = parseInt(hex.slice(1,3), 16);
     const g = parseInt(hex.slice(3,5), 16);
     const b = parseInt(hex.slice(5,7), 16);
-    sR.value = r; sG.value = g; sB.value = b;
-
-    // 文字色反転
     display.style.color = (r*0.299 + g*0.587 + b*0.114) > 186 ? '#000' : '#fff';
 }
 
-// --- AUTO CONVERTER LOGIC ---
-function doConvert(type) {
-    if (type === 'hex') {
-        const val = document.getElementById('u-hex').value;
-        const res = document.getElementById('res-bin');
-        let n = parseInt(val, 16);
-        res.innerText = isNaN(n) ? "---- ----" : n.toString(2).padStart(8, '0').replace(/(.{4})/g, '$1 ');
-    } 
-    else if (type === 'len') {
-        const val = document.getElementById('u-m').value;
-        const res = document.getElementById('res-ft');
-        res.innerText = val ? (parseFloat(val) * 3.28084).toFixed(2) + " ft" : "0.00 ft";
-    }
-    else if (type === 'temp') {
-        const val = document.getElementById('u-c').value;
-        const res = document.getElementById('res-f');
-        res.innerText = val ? (parseFloat(val) * 9/5 + 32).toFixed(1) + " °F" : "32.0 °F";
-    }
+// --- Unit Converter Logic (修正版) ---
+function initUnit() {
+    const type = document.getElementById('unit-type').value;
+    const lIn = document.getElementById('label-in');
+    const lOut = document.getElementById('label-out');
+    const input = document.getElementById('unit-in');
+    const output = document.getElementById('unit-out');
+
+    input.value = "";
+    output.value = "";
+
+    if(type === "base") { lIn.innerText = "HEXADECIMAL"; lOut.innerText = "BINARY RESULT"; }
+    else if(type === "length") { lIn.innerText = "METERS (m)"; lOut.innerText = "FEET (ft)"; }
+    else if(type === "weight") { lIn.innerText = "KILOGRAMS (kg)"; lOut.innerText = "POUNDS (lb)"; }
 }
 
-// --- CALCULATOR ---
+function unitConvert() {
+    const type = document.getElementById('unit-type').value;
+    const val = document.getElementById('unit-in').value;
+    const out = document.getElementById('unit-out');
+
+    if(!val || val.trim() === "") { out.value = ""; return; }
+
+    try {
+        if(type === "base") {
+            let n = parseInt(val, 16);
+            if(isNaN(n)) { out.value = "Invalid Hex"; }
+            else { out.value = n.toString(2).padStart(8,'0').replace(/(.{4})/g, '$1 '); }
+        } else if(type === "length") {
+            let n = parseFloat(val);
+            out.value = isNaN(n) ? "Error" : (n * 3.28084).toFixed(3) + " ft";
+        } else if(type === "weight") {
+            let n = parseFloat(val);
+            out.value = isNaN(n) ? "Error" : (n * 2.20462).toFixed(3) + " lb";
+        }
+    } catch(e) { out.value = "Error"; }
+}
+
+// --- Calculator Logic ---
 let formula = "";
-function calcAction(val) { formula += val; document.getElementById('calc-formula').innerText = formula; }
-function calcClear() { formula = ""; document.getElementById('calc-formula').innerText = ""; document.getElementById('calc-target').innerText = "0"; }
+function calcAction(val) {
+    formula += val;
+    document.getElementById('calc-formula').innerText = formula;
+}
+function calcClear() {
+    formula = "";
+    document.getElementById('calc-formula').innerText = "";
+    document.getElementById('calc-target').innerText = "0";
+}
 function calcSolve() {
     try {
         let p = formula.replace(/sin\(/g, "Math.sin(Math.PI/180*").replace(/cos\(/g, "Math.cos(Math.PI/180*").replace(/×/g, "*").replace(/÷/g, "/");
