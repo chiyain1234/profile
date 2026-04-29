@@ -2,19 +2,19 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Chiyain / Lab Dashboard</title>
+    <title>Chiyain / Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body oncontextmenu="return false;" ondragstart="return false;">
+<body oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
 
 <div class="main-frame">
     <nav class="sidebar">
         <button class="nav-btn active" onclick="showView('profile', event)">USER</button>
-        <button class="nav-btn" onclick="showView('maze', event)">MAZE</button>
+        <button class="nav-btn" onclick="showView('colors', event)">COLORS</button>
         <button class="nav-btn" onclick="showView('calc', event)">CALC</button>
-        <button class="nav-btn" onclick="showView('tool', event)">CONV</button>
+        <button class="nav-btn" onclick="showView('tool', event)">UNIT</button>
     </nav>
 
     <main class="content">
@@ -24,23 +24,28 @@
                 <h2 class="title">ちゃいん</h2>
                 <p class="subtitle">ELECTRONICS / MINECRAFT / DEV</p>
                 <div class="social-links">
-                    <a href="https://x.com/chiyain1234" target="_blank">X</a> / 
-                    <a href="https://github.com/chiyain1234" target="_blank">GitHub</a>
+                    <span>X</span> / <span>GitHub</span>
                 </div>
             </div>
             <div class="discord-area">
-                <a href="https://discord.com/users/922776570597376012" target="_blank">
-                    <img src="https://discord-readme-badge.vercel.app/api?id=922776570597376012" alt="Discord">
-                </a>
+                <img src="https://discord-readme-badge.vercel.app/api?id=922776570597376012" alt="Discord">
             </div>
         </section>
 
-        <section id="view-maze" class="view">
-            <div class="view-header">
-                <span class="label-danger">WALL CONTACT = RESET</span>
-                <button onclick="generateMaze()" class="text-btn">REGENERATE</button>
+        <section id="view-colors" class="view">
+            <div class="tool-wrap">
+                <h3 class="tool-title">COLOR PICKER</h3>
+                <div id="color-preview" class="color-display">#5865F2</div>
+                <input type="color" id="color-input" value="#5865f2" oninput="updateColor(this.value)">
+                <div class="color-grid">
+                    <div class="c-box" style="background:#FF4B2B;" onclick="updateColor('#FF4B2B')"></div>
+                    <div class="c-box" style="background:#FF416C;" onclick="updateColor('#FF416C')"></div>
+                    <div class="c-box" style="background:#00B4DB;" onclick="updateColor('#00B4DB')"></div>
+                    <div class="c-box" style="background:#00f2fe;" onclick="updateColor('#00f2fe')"></div>
+                    <div class="c-box" style="background:#7ed56f;" onclick="updateColor('#7ed56f')"></div>
+                    <div class="c-box" style="background:#28b485;" onclick="updateColor('#28b485')"></div>
+                </div>
             </div>
-            <div id="maze-container"></div>
         </section>
 
         <section id="view-calc" class="view">
@@ -54,27 +59,22 @@
                     <button class="c-btn op" onclick="calcAction('cos(')">cos</button>
                     <button class="c-btn op" onclick="calcAction('(')">(</button>
                     <button class="c-btn op" onclick="calcAction(')')">)</button>
-
                     <button class="c-btn" onclick="calcAction('7')">7</button>
                     <button class="c-btn" onclick="calcAction('8')">8</button>
                     <button class="c-btn" onclick="calcAction('9')">9</button>
                     <button class="c-btn op bold" onclick="calcClear()">AC</button>
-
                     <button class="c-btn" onclick="calcAction('4')">4</button>
                     <button class="c-btn" onclick="calcAction('5')">5</button>
                     <button class="c-btn" onclick="calcAction('6')">6</button>
                     <button class="c-btn op" onclick="calcAction('/')">÷</button>
-
                     <button class="c-btn" onclick="calcAction('1')">1</button>
                     <button class="c-btn" onclick="calcAction('2')">2</button>
                     <button class="c-btn" onclick="calcAction('3')">3</button>
                     <button class="c-btn op" onclick="calcAction('*')">×</button>
-
                     <button class="c-btn" onclick="calcAction('0')">0</button>
                     <button class="c-btn" onclick="calcAction('.')">.</button>
                     <button class="c-btn op" onclick="calcAction('-')">-</button>
                     <button class="c-btn op" onclick="calcAction('+')">+</button>
-                    
                     <button class="c-btn solve" onclick="calcSolve()">ENTER / =</button>
                 </div>
             </div>
@@ -82,14 +82,19 @@
 
         <section id="view-tool" class="view">
             <div class="tool-wrap">
-                <h3 class="tool-title">CONVERTER</h3>
+                <h3 class="tool-title">UNIT MASTER v2.0</h3>
+                <select id="unit-type" onchange="initUnit()">
+                    <option value="base">RADIX (進数)</option>
+                    <option value="length">LENGTH (長さ)</option>
+                    <option value="weight">WEIGHT (重さ)</option>
+                </select>
                 <div class="field">
-                    <label>HEXADECIMAL</label>
-                    <input type="text" id="hex-in" placeholder="FF" oninput="convert()">
+                    <label id="label-in">INPUT</label>
+                    <input type="text" id="unit-in" oninput="unitConvert()">
                 </div>
                 <div class="field">
-                    <label>BINARY</label>
-                    <input type="text" id="bin-out" readonly>
+                    <label id="label-out">RESULT</label>
+                    <input type="text" id="unit-out" readonly>
                 </div>
             </div>
         </section>
