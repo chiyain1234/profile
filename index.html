@@ -2,131 +2,19 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Chiyain / Lab Dashboard v2.2</title>
+    <title>Chiyain / Lab Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg: #050505;
-            --panel: #111111;
-            --text-main: #eeeeee;
-            --text-sub: #777777;
-            --accent: #5865F2;
-            --danger: #ff3333;
-            --success: #00ff88;
-            --transition-speed: 0.4s;
-        }
-
-        body {
-            margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center;
-            background-color: var(--bg); color: var(--text-main);
-            font-family: 'Inter', sans-serif; user-select: none; -webkit-user-select: none;
-            overflow: hidden;
-        }
-
-        .main-frame {
-            display: grid; grid-template-columns: 90px 1fr;
-            width: 95vw; max-width: 850px; height: 550px;
-            background: var(--panel); border: 1px solid #222; border-radius: 16px; overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-        }
-
-        /* --- サイドバー --- */
-        .sidebar {
-            background: #080808; border-right: 1px solid #222;
-            display: flex; flex-direction: column; align-items: center; padding: 30px 0; gap: 20px;
-        }
-
-        .nav-btn {
-            width: 55px; height: 55px; background: #161616; border: 1px solid #222;
-            color: var(--text-sub); border-radius: 12px; cursor: pointer;
-            font-family: 'Montserrat'; font-size: 9px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .nav-btn:hover { border-color: var(--accent); color: #fff; transform: translateY(-2px); }
-        .nav-btn.active { border-color: var(--accent); color: var(--accent); background: #1a1a2a; }
-
-        /* --- コンテンツエリア --- */
-        .content { position: relative; padding: 40px; overflow: hidden; }
-
-        .view {
-            display: none; 
-            height: 100%;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity var(--transition-speed), transform var(--transition-speed);
-        }
-
-        /* アニメーション用のクラス */
-        .view.active {
-            display: flex;
-            flex-direction: column;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- USERタブ (中央配置) --- */
-        #view-profile {
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .avatar {
-            width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--text-main);
-            margin-bottom: 20px; transition: 0.3s;
-        }
-        .avatar:hover { border-color: var(--accent); transform: scale(1.05); }
-
-        .title { font-family: 'Montserrat'; font-weight: 800; font-size: 32px; margin: 0; }
-        .subtitle { font-family: 'JetBrains Mono'; color: var(--text-sub); font-size: 12px; margin-top: 5px; }
-
-        .social-links { margin: 20px 0; font-family: 'Montserrat'; }
-        .social-links a { color: var(--accent); text-decoration: none; font-weight: bold; }
-
-        .discord-area {
-            margin-top: 15px;
-            display: flex;
-            justify-content: center; /* 横方向中央 */
-            width: 100%;
-        }
-
-        /* --- 迷路 --- */
-        #maze-container {
-            display: grid; width: 320px; height: 320px; margin: 0 auto;
-            background: #000; border: 2px solid #333;
-        }
-        .cell { width: 100%; height: 100%; }
-        .w { background: #222; transition: 0.2s; }
-        .w:hover { background: var(--danger); }
-        .g { background: var(--success); cursor: pointer; }
-
-        /* --- 関数電卓 --- */
-        .calc-wrap { max-width: 380px; margin: 0 auto; width: 100%; }
-        .calc-screen {
-            background: #000; padding: 20px; border-radius: 12px; border: 1px solid #333;
-            text-align: right; font-family: 'JetBrains Mono'; margin-bottom: 15px;
-        }
-        #calc-formula { font-size: 13px; color: var(--text-sub); min-height: 1.5em; }
-        #calc-target { font-size: 28px; color: var(--accent); font-weight: bold; }
-        
-        .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .c-btn {
-            background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 15px;
-            border-radius: 8px; cursor: pointer; font-family: 'Montserrat'; font-size: 14px;
-        }
-        .c-btn.op { color: var(--accent); }
-        .c-btn.solve { background: var(--accent); border: none; grid-column: span 2; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body oncontextmenu="return false;" ondragstart="return false;">
 
 <div class="main-frame">
     <nav class="sidebar">
-        <button class="nav-btn active" onclick="showView('profile')">USER</button>
-        <button class="nav-btn" onclick="showView('maze')">MAZE</button>
-        <button class="nav-btn" onclick="showView('calc')">CALC</button>
-        <button class="nav-btn" onclick="showView('tool')">CONV</button>
+        <button class="nav-btn active" onclick="showView('profile', event)">USER</button>
+        <button class="nav-btn" onclick="showView('maze', event)">MAZE</button>
+        <button class="nav-btn" onclick="showView('calc', event)">CALC</button>
+        <button class="nav-btn" onclick="showView('tool', event)">CONV</button>
     </nav>
 
     <main class="content">
@@ -148,9 +36,9 @@
         </section>
 
         <section id="view-maze" class="view">
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                <span style="font-family:'Montserrat'; font-size:10px; color:var(--danger);">DON'T TOUCH THE WALLS</span>
-                <button onclick="generateMaze()" style="background:none; border:1px solid #333; color:#555; cursor:pointer; font-size:10px; padding:2px 10px;">REGENERATE</button>
+            <div class="view-header">
+                <span class="label-danger">WALL CONTACT = RESET</span>
+                <button onclick="generateMaze()" class="text-btn">REGENERATE</button>
             </div>
             <div id="maze-container"></div>
         </section>
@@ -170,7 +58,7 @@
                     <button class="c-btn" onclick="calcAction('7')">7</button>
                     <button class="c-btn" onclick="calcAction('8')">8</button>
                     <button class="c-btn" onclick="calcAction('9')">9</button>
-                    <button class="c-btn op" onclick="calcClear()">AC</button>
+                    <button class="c-btn op bold" onclick="calcClear()">AC</button>
 
                     <button class="c-btn" onclick="calcAction('4')">4</button>
                     <button class="c-btn" onclick="calcAction('5')">5</button>
@@ -184,97 +72,30 @@
 
                     <button class="c-btn" onclick="calcAction('0')">0</button>
                     <button class="c-btn" onclick="calcAction('.')">.</button>
-                    <button class="c-btn solve" onclick="calcSolve()">=</button>
                     <button class="c-btn op" onclick="calcAction('-')">-</button>
-                    <button class="c-btn op" style="grid-column: span 4" onclick="calcAction('+')">+</button>
+                    <button class="c-btn op" onclick="calcAction('+')">+</button>
+                    
+                    <button class="c-btn solve" onclick="calcSolve()">ENTER / =</button>
                 </div>
             </div>
         </section>
 
         <section id="view-tool" class="view">
-            <div style="max-width:400px; margin: 0 auto; width:100%;">
-                <h3 style="font-family:'Montserrat'; margin-bottom:30px; border-left:4px solid var(--accent); padding-left:15px;">CONVERTER</h3>
-                <div style="margin-bottom:20px;">
-                    <label style="font-family:'Montserrat'; font-size:11px; color:var(--text-sub);">HEXADECIMAL</label>
-                    <input type="text" id="hex-in" placeholder="FF" oninput="convert('hex')" style="width:100%; background:#000; border:1px solid #333; color:#fff; padding:12px; font-family:'JetBrains Mono'; margin-top:5px;">
+            <div class="tool-wrap">
+                <h3 class="tool-title">CONVERTER</h3>
+                <div class="field">
+                    <label>HEXADECIMAL</label>
+                    <input type="text" id="hex-in" placeholder="FF" oninput="convert()">
                 </div>
-                <div style="margin-bottom:20px;">
-                    <label style="font-family:'Montserrat'; font-size:11px; color:var(--text-sub);">BINARY</label>
-                    <input type="text" id="bin-out" readonly style="width:100%; background:#000; border:1px solid #111; color:var(--accent); padding:12px; font-family:'JetBrains Mono'; margin-top:5px;">
+                <div class="field">
+                    <label>BINARY</label>
+                    <input type="text" id="bin-out" readonly>
                 </div>
             </div>
         </section>
     </main>
 </div>
 
-<script>
-    // --- タブ切り替えロジック ---
-    function showView(id) {
-        const views = document.querySelectorAll('.view');
-        const btns = document.querySelectorAll('.nav-btn');
-
-        btns.forEach(b => b.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-
-        views.forEach(v => {
-            v.classList.remove('active');
-            setTimeout(() => { v.style.display = 'none'; }, 300);
-        });
-
-        setTimeout(() => {
-            const target = document.getElementById('view-' + id);
-            target.style.display = 'flex';
-            setTimeout(() => { target.classList.add('active'); }, 50);
-        }, 300);
-
-        if(id === 'maze') generateMaze();
-    }
-
-    // --- 関数電卓ロジック ---
-    let formula = "";
-    const fDisp = document.getElementById('calc-formula');
-    const tDisp = document.getElementById('calc-target');
-
-    function calcAction(val) { formula += val; updateDisp(); }
-    function calcClear() { formula = ""; tDisp.innerText = "0"; updateDisp(); }
-    function updateDisp() { fDisp.innerText = formula; }
-    function calcSolve() {
-        try {
-            let p = formula.replace(/sin\(/g, "Math.sin(Math.PI/180*").replace(/cos\(/g, "Math.cos(Math.PI/180*").replace(/×/g, "*").replace(/÷/g, "/");
-            let res = eval(p);
-            tDisp.innerText = Number.isInteger(res) ? res : res.toFixed(4);
-        } catch { tDisp.innerText = "Error"; }
-    }
-
-    // --- ランダム迷路ロジック ---
-    function generateMaze() {
-        const container = document.getElementById('maze-container');
-        const size = 12;
-        container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
-        container.innerHTML = '';
-        for (let i = 0; i < size * size; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'cell';
-            if (i === size * size - 1) {
-                cell.classList.add('g');
-                cell.onmouseenter = () => { alert("CLEAR!"); showView('profile'); };
-            } else if (i !== 0 && Math.random() > 0.75) {
-                cell.classList.add('w');
-                cell.onmouseenter = () => { generateMaze(); };
-            }
-            container.appendChild(cell);
-        }
-    }
-
-    // --- 変換ツールロジック ---
-    function convert(type) {
-        const hex = document.getElementById('hex-in');
-        const bin = document.getElementById('bin-out');
-        let val = parseInt(hex.value, 16);
-        if(!isNaN(val)) {
-            bin.value = val.toString(2).padStart(8, '0').replace(/(.{4})/g, '$1 ');
-        }
-    }
-</script>
+<script src="script.js"></script>
 </body>
 </html>
