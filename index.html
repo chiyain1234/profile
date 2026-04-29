@@ -45,7 +45,6 @@
             display: grid;
             grid-template-columns: auto auto;
             gap: 12px 25px;
-            /* 全体は大文字設定 */
             text-transform: uppercase;
         }
 
@@ -59,7 +58,7 @@
             text-align: left;
             display: flex;
             gap: 10px;
-            align-items: baseline;
+            align-items: center; /* バッジとテキストの中央を揃える */
         }
 
         a {
@@ -71,18 +70,23 @@
             color: var(--accent);
         }
 
-        /* 修正：ここだけ大文字化を解除 */
         .user-id {
             color: var(--text-sub);
             font-size: 11px;
             letter-spacing: 0;
-            margin-top: 2px;
             text-transform: none; 
+        }
+
+        /* バッジのサイズ微調整 */
+        .discord-badge {
+            height: 18px;
+            vertical-align: middle;
         }
 
         @media (max-width: 400px) {
             .info-grid { font-size: 11px; gap: 10px 15px; }
             .avatar { width: 60px; height: 60px; }
+            .discord-badge { height: 16px; }
         }
     </style>
 </head>
@@ -99,12 +103,15 @@
         </div>
 
         <div class="label">Status</div>
-        <div class="value">Minecraft / Gaming</div>
+        <div class="value">
+            <span>Minecraft / Gaming</span>
+            <img class="discord-badge" src="https://discord-readme-badge.vercel.app/api?id=922776570597376012" alt="Discord Status">
+        </div>
 
         <div class="label">Link</div>
         <div class="value">
             <a href="https://x.com/chiyain1234" target="_blank">X</a> / 
-            <a href="https://steamcommunity.com/profiles/76561199729156680">Steam</a>
+            <a href="https://github.com/chiyain1234">GitHub</a>
         </div>
     </div>
 </div>
