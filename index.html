@@ -2,222 +2,149 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>PROFILE // PERSONAL INFOMATION</title>
+    <title>system@portfolio: ~</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
-            --bg-color: #ffffff; /* 純白 */
-            --text-main: #000000; /* 純黒 */
-            --text-sub: #888888; /* グレー */
-            --accent: #0000ff; /* アクセントカラー（青） */
-            --line-color: #e0e0e0; /* 線の色 */
-            
-            /* フォント設定：日本語はゴシック体、英数はジオメトリック（幾何学）調 */
-            --font-family: 'Helvetica Neue', Helvetica, Arial, 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, sans-serif;
+            --bg-color: #0a0a0a;
+            --text-color: #00ff41; /* 昔のPCのようなグリーン */
+            --dim-color: #008f11;
+            --font-family: 'Courier New', Courier, monospace;
         }
-
-        * { box-sizing: border-box; }
 
         body {
-            margin: 0;
-            padding: 0;
             background-color: var(--bg-color);
-            color: var(--text-main);
+            color: var(--text-color);
             font-family: var(--font-family);
-            -webkit-font-smoothing: antialiased;
-            overflow: hidden; /* 全体はスクロールさせない */
-        }
-
-        /* 画面全体を分割するレイアウト */
-        .wrapper {
-            display: flex;
-            height: 100vh;
-            width: 100vw;
-        }
-
-        /* --- 左側：固定タイトルエリア --- */
-        .left-panel {
-            width: 30%;
-            height: 100%;
-            border-right: 1px solid var(--line-color);
-            padding: 60px;
+            margin: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
-        .site-title {
-            font-size: 12px;
-            font-weight: 900;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
-
-        .main-heading {
-            font-size: 8vw; /* 画面幅に応じた巨大な文字 */
-            font-weight: 900;
-            line-height: 0.8;
-            letter-spacing: -0.05em;
-            text-transform: uppercase;
-            margin: 0;
-            transform: rotate(-90deg) translateX(-100%); /* 90度回転 */
-            transform-origin: left top;
+        /* 走査線エフェクト（ブラウン管風） */
+        body::before {
+            content: " ";
+            display: block;
             position: absolute;
-            bottom: 60px;
-            left: 60px;
-            white-space: nowrap;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            z-index: 10;
+            pointer-events: none;
         }
 
-        /* --- 右側：スクロールコンテンツエリア --- */
-        .right-panel {
-            width: 70%;
-            height: 100%;
-            overflow-y: auto; /* ここだけスクロール */
-            padding: 100px 10% 100px 10%;
-        }
-
-        /* セクション共通 */
-        section {
-            margin-bottom: 100px;
+        .terminal {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
             position: relative;
+            z-index: 5;
         }
 
-        .section-num {
-            font-size: 12px;
-            font-weight: 900;
-            color: var(--accent);
-            position: absolute;
-            left: -40px;
-            top: 5px;
+        .line {
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeIn 0.1s forwards;
         }
 
-        .section-title {
-            font-size: 12px;
-            font-weight: 900;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--text-sub);
-            margin-bottom: 30px;
+        .prompt::before {
+            content: "guest@portfolio:~$ ";
+            color: var(--dim-color);
         }
 
-        /* 名前エリア */
-        .name-ja {
-            font-size: 48px;
-            font-weight: 900;
-            margin: 0;
-            letter-spacing: -0.03em;
-        }
-        .name-en {
-            font-size: 18px;
-            font-weight: 300;
-            color: var(--text-sub);
-            margin: 5px 0 0 0;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+        .command {
+            color: #fff;
+            font-weight: bold;
         }
 
-        /* プロフィールテキスト */
-        .profile-text {
-            font-size: 18px;
-            line-height: 1.8;
-            font-weight: 400;
-            max-width: 600px;
-        }
-        .highlight {
-            font-weight: 700;
-            border-bottom: 2px solid var(--accent);
+        .response {
+            padding-left: 20px;
+            color: var(--text-color);
+            word-break: break-all;
         }
 
-        /* タグ（スキル） */
-        .tag-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .tag {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 8px 15px;
-            border: 1px solid var(--text-main);
-            border-radius: 0; /* 四角形 */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2em;
+            background-color: var(--text-color);
+            vertical-align: middle;
+            animation: blink 1s infinite;
         }
 
-        /* リンク */
-        .link-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .link-list li {
-            border-bottom: 1px solid var(--line-color);
-        }
-        .link-list a {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
+        a {
+            color: var(--text-color);
             text-decoration: none;
-            color: var(--text-main);
-            font-size: 16px;
-            font-weight: 700;
-            transition: color 0.2s;
+            border-bottom: 1px dashed var(--text-color);
         }
-        .link-list a:hover {
-            color: var(--accent);
-        }
-        .arrow {
-            font-size: 20px;
-            font-weight: 300;
+        a:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
         }
 
-        /* --- レスポンシブ（スマホ対応） --- */
-        @media (max-width: 900px) {
-            .wrapper { flex-direction: column; overflow-y: auto; }
-            .left-panel { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--line-color); padding: 30px; }
-            .main-heading { transform: none; position: static; font-size: 15vw; margin-top: 20px; }
-            .right-panel { width: 100%; height: auto; padding: 50px 30px; overflow-y: visible; }
-            section { margin-bottom: 60px; }
-            .section-num { position: static; margin-bottom: 5px; }
-            .name-ja { font-size: 32px; }
+        /* タイピング風アニメーションの遅延設定 */
+        .l1 { animation-delay: 0.5s; }
+        .l2 { animation-delay: 1.0s; }
+        .l3 { animation-delay: 1.5s; }
+        .l4 { animation-delay: 2.0s; }
+        .l5 { animation-delay: 2.5s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        @media (max-width: 600px) {
+            body { font-size: 14px; padding: 15px; }
         }
     </style>
 </head>
 <body>
 
-<div class="wrapper">
-    <div class="left-panel">
-        <div class="site-title">PORTFOLIO // 2024</div>
-        <h1 class="main-heading">IDENTITY</h1>
+<div class="terminal">
+    <div class="line l1">Last login: <span id="current-date"></span> from 127.0.0.1</div>
+    
+    <div class="line l2">
+        <span class="prompt"></span><span class="command">whoami</span>
+        <div class="response">Guest User / Anonymous</div>
     </div>
 
-    <div class="right-panel">
-        
-        <section>
-            <div class="section-num">01</div>
-            <div class="section-title">Name</div>
-            <p class="name-ja">USER_NAME</p>
-            <p class="name-en">Your Handle Name</p>
-        </section>
+    <div class="line l3">
+        <span class="prompt"></span><span class="command">fetch --status</span>
+        <div class="response">
+            [Major] Electronics<br>
+            [Focus] Logic Circuits / Hardware Automation<br>
+            [Tools] C, Python, Swift, Linux
+        </div>
+    </div>
 
-        <section>
-            <div class="section-num">02</div>
-            <div class="section-title">Profile</div>
-            <p class="profile-text">
-                大学で<span class="highlight">電子工学</span>を専攻している学生です。
-                論理回路からプログラミングまで、ハードとソフトの境界に関心があります。
-                趣味はMinecraftでの自動化回路ビルドと、自宅サーバーの管理です。
-            </p>
-        </section>
+    <div class="line l4">
+        <span class="prompt"></span><span class="command">ls ./links</span>
+        <div class="response">
+            <a href="./index.html">activity_monitor.exe</a><br>
+            <a href="https://github.com/" target="_blank">github_repository.sh</a>
+        </div>
+    </div>
 
-        <section>
-            <div class="section-num">03</div>
-            <div class="section-title">Interests</div>
-            <div class="tag-container">
-                <div class="tag">Circuit Design</div>
-                <div class="tag">Verilog / VHDL</div>
-                <div class="tag">Swift</div>
-                <div class="tag">Python</div>
-                <div class="tag">Minecraft Redstone</div>
-                <div class="tag">Linux</div>
+    <div class="line l5">
+        <span class="prompt"></span><span class="cursor"></span>
+    </div>
+</div>
+
+<script>
+    // 現在の時刻を表示する
+    document.getElementById('current-date').innerText = new Date().toLocaleString();
+</script>
+
+</body>
+</html>
