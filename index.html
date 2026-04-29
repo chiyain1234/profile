@@ -58,7 +58,7 @@
             text-align: left;
             display: flex;
             gap: 10px;
-            align-items: center; /* バッジとテキストの中央を揃える */
+            align-items: baseline;
         }
 
         a {
@@ -77,16 +77,28 @@
             text-transform: none; 
         }
 
-        /* バッジのサイズ微調整 */
+        /* Discordステータスエリアの調整 */
+        .discord-status-row {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
         .discord-badge {
-            height: 18px;
-            vertical-align: middle;
+            height: 20px; /* 適切な大きさに設定 */
+            display: block;
+            transition: opacity 0.2s;
+        }
+
+        .discord-badge:hover {
+            opacity: 0.8;
         }
 
         @media (max-width: 400px) {
             .info-grid { font-size: 11px; gap: 10px 15px; }
             .avatar { width: 60px; height: 60px; }
-            .discord-badge { height: 16px; }
+            .discord-badge { height: 18px; }
         }
     </style>
 </head>
@@ -102,17 +114,20 @@
             <span class="user-id">Discord: n_n_e_</span>
         </div>
 
-        <div class="label">Status</div>
-        <div class="value">
-            <span>Minecraft / Gaming</span>
-            <img class="discord-badge" src="https://discord-readme-badge.vercel.app/api?id=922776570597376012" alt="Discord Status">
-        </div>
+        <div class="label">Hobby</div>
+        <div class="value">Minecraft / Gaming</div>
 
         <div class="label">Link</div>
         <div class="value">
             <a href="https://x.com/chiyain1234" target="_blank">X</a> / 
             <a href="https://github.com/chiyain1234">GitHub</a>
         </div>
+    </div>
+
+    <div class="discord-status-row">
+        <a href="https://discord.com/users/922776570597376012" target="_blank">
+            <img class="discord-badge" src="https://discord-readme-badge.vercel.app/api?id=922776570597376012" alt="Discord Status">
+        </a>
     </div>
 </div>
 
