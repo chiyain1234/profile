@@ -103,3 +103,17 @@ function calcSolve() {
         document.getElementById('calc-target').innerText = Number.isFinite(res) ? (Number.isInteger(res) ? res : res.toFixed(4)) : "Error";
     } catch { document.getElementById('calc-target').innerText = "Error"; }
 }
+
+
+const cursor = document.getElementById('custom-cursor');
+
+document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+});
+
+// ボタンやリンクにホバーした時にカーソルを大きくする
+document.querySelectorAll('.clickable, button, a, input, select').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+});
