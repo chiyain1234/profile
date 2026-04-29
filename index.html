@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Chiyain / Profile</title>
+    <title>Chiyain / Maze Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
     
@@ -13,159 +13,126 @@
             --text-sub: #999999;
             --accent: #5865F2;
             --deco-line: rgba(238, 238, 238, 0.15);
+            --maze-path: rgba(255, 255, 255, 0.05); /* 迷路の道のうっすらした色 */
         }
 
         body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Inter', -apple-system, sans-serif;
-            letter-spacing: 0.05em;
-            
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            
-            cursor: default;
+            margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center;
+            background-color: var(--bg); color: var(--text-main);
+            font-family: 'Inter', sans-serif; letter-spacing: 0.05em;
+            user-select: none; -webkit-user-select: none; cursor: default;
+            overflow: hidden;
         }
 
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-            font-size: 13px;
-            padding: 20px;
+            display: flex; flex-direction: column; align-items: center; gap: 25px;
+            font-size: 13px; padding: 40px; position: relative;
         }
 
-        .header-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--deco-line);
+        /* 迷路の「道」の設定 */
+        .maze-area {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* 初期状態では反応させない */
+            z-index: 1;
         }
 
+        .path-segment {
+            position: absolute; background: var(--maze-path);
+            transition: background 0.3s; pointer-events: auto;
+        }
+        .path-segment:hover { background: rgba(255, 255, 255, 0.2); }
+
+        .header-area { padding-bottom: 20px; border-bottom: 1px solid var(--deco-line); z-index: 10; }
         .avatar {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            border: 2px solid var(--text-main);
-            object-fit: cover;
-
-            -webkit-user-drag: none;
-            pointer-events: none; 
+            width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--text-main);
+            object-fit: cover; -webkit-user-drag: none; cursor: pointer;
         }
 
-        .info-grid {
-            display: grid;
-            grid-template-columns: auto auto;
-            gap: 15px 30px;
-            padding: 10px 0;
-        }
+        .info-grid { display: grid; grid-template-columns: auto auto; gap: 15px 30px; z-index: 10; }
+        .label { text-align: right; color: var(--text-sub); font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 0.15em; }
 
-        .label {
-            text-align: right;
-            color: var(--text-sub);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 0.15em;
+        /* Link部分：迷路をクリアするまで隠す */
+        #link-value {
+            opacity: 0.1;
+            pointer-events: none; /* 最初はクリックできない */
+            transition: opacity 0.5s, transform 0.5s;
+            transform: scale(0.9);
         }
-
-        .value {
-            text-align: left;
-            display: flex;
-            gap: 10px;
-            align-items: baseline;
-            font-weight: 400;
-        }
-
-        a {
-            color: var(--text-main);
-            text-decoration: none;
-            transition: color 0.2s, border-bottom 0.2s;
-            border-bottom: 1px solid transparent;
-            
-            -webkit-user-drag: none;
-            cursor: pointer;
-        }
-        a:hover {
+        #link-value.unlocked {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
             color: var(--accent);
-            border-bottom: 1px solid var(--accent);
         }
 
-        .user-id {
-            color: var(--text-sub);
-            font-size: 11px;
-            letter-spacing: 0;
+        a { color: var(--text-main); text-decoration: none; border-bottom: 1px solid transparent; }
+        a:hover { color: var(--accent); border-bottom: 1px solid var(--accent); }
+
+        .discord-status-row { margin-top: 10px; padding-top: 25px; border-top: 1px solid var(--deco-line); z-index: 10; }
+        .discord-badge { height: 60px; -webkit-user-drag: none; }
+
+        /* 画面外（背景）を触ったらリセットするための壁 */
+        .maze-wall {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0;
         }
 
-        .discord-status-row {
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            padding-top: 25px;
-            border-top: 1px solid var(--deco-line);
-        }
-
-        .discord-badge {
-            height: 60px; 
-            display: block;
-            transition: transform 0.2s, opacity 0.2s;
-            -webkit-user-drag: none;
-        }
-
-        .discord-badge:hover {
-            opacity: 0.9;
-            transform: scale(1.02);
-        }
-
-        @media (max-width: 400px) {
-            .info-grid { font-size: 12px; gap: 12px 20px; }
-            .avatar { width: 60px; height: 60px; }
-            .discord-badge { height: 55px; }
-        }
     </style>
 </head>
 <body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
-<div class="container">
-    <div class="header-area">
-        <img src="./chiyain.png" alt="ちゃいん" class="avatar">
-    </div>
+    <div class="maze-wall" onmouseenter="resetMaze()"></div>
 
-    <div class="info-grid">
-        <div class="label">User</div>
-        <div class="value">
-            <span>ちゃいん</span>
-            <span class="user-id">Discord: n_n_e_</span>
+    <div class="container">
+        <div class="header-area" onmouseenter="startMaze()">
+            <img src="./chiyain.png" alt="ちゃいん" class="avatar">
+            <div style="font-size: 8px; color: var(--text-sub); margin-top: 5px; text-align: center;">START HERE</div>
         </div>
 
-        <div class="label">Hobby</div>
-        <div class="value">Minecraft / Gaming</div>
+        <div class="info-grid">
+            <div class="label">User</div>
+            <div class="value">ちゃいん <span style="color:var(--text-sub); font-size:11px;">Discord: n_n_e_</span></div>
 
-        <div class="label">Link</div>
-        <div class="value">
-            <a href="https://x.com/chiyain1234" target="_blank">X</a> / 
-            <a href="https://github.com/chiyain1234">GitHub</a>
+            <div class="label">Hobby</div>
+            <div class="value">Minecraft / Gaming</div>
+
+            <div class="label">Link</div>
+            <div id="link-value" class="value">
+                <a href="https://x.com/chiyain1234" target="_blank">X</a> / 
+                <a href="https://github.com/chiyain1234">GitHub</a>
+            </div>
+        </div>
+
+        <div class="discord-status-row" onmouseenter="unlockLink()">
+            <a href="https://discord.com/users/922776570597376012" target="_blank">
+                <img class="discord-badge" src="https://discord-readme-badge.vercel.app/api?id=922776570597376012" alt="Discord Status">
+            </a>
         </div>
     </div>
 
-    <div class="discord-status-row">
-        <a href="https://discord.com/users/922776570597376012" target="_blank">
-            <img class="discord-badge" src="https://discord-readme-badge.vercel.app/api?id=922776570597376012" alt="Discord Status">
-        </a>
-    </div>
-</div>
+    <script>
+        const link = document.getElementById('link-value');
+        let mazeActive = false;
 
+        function startMaze() {
+            mazeActive = true;
+            link.style.opacity = "0.3";
+            console.log("Maze Started");
+        }
+
+        function unlockLink() {
+            if (mazeActive) {
+                link.classList.add('unlocked');
+                mazeActive = false; // ゴールしたので迷路終了
+            }
+        }
+
+        function resetMaze() {
+            if (!link.classList.contains('unlocked')) {
+                mazeActive = false;
+                link.style.opacity = "0.1";
+            }
+        }
+    </script>
 </body>
 </html>
